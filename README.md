@@ -4,6 +4,10 @@ Proyecto de creación de API Rest sencilla para una prueba técnica.
 
 # Instrucciones
 
+## Descarga de repositorio
+
+Clonar el repositorio en su rama master.
+
 ## Base de datos
 
 Ejecutar el archivo `api-spring-boot-coopeuch.sql` en un servidor MySQL, el cual creará la base de datos que se requiere para guardar, consultar, actualizar y eliminar los datos.
