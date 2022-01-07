@@ -25,9 +25,9 @@ Resultado esperado:
     {
         "id": 2,
         "name": "Macarena Ripamonti",
-        "userName": "macaripa",
-        "date": "2022-01-07T03:00:00.000+00:00"
-    }
+        "userName": "macaripa",\n
+        "date": "2022-01-07T03:00:00.000+00:00"\n
+    }\n
 ]`
 
 http://localhost:8080/api/person/{id}
@@ -36,7 +36,7 @@ Hace un listado de la persona que está dentro de una base de datos según la ID
 
 Resultado esperado:
 
-`{
+`{\n
     "id": 2,
     "name": "Macarena Ripamonti",
     "userName": "macaripa",
