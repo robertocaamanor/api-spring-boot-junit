@@ -1,17 +1,14 @@
 package com.apiuxprueba.api.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.apiuxprueba.api.model.Person;
 import com.apiuxprueba.api.repository.PersonRepository;
@@ -31,11 +28,6 @@ public class PersonController {
         return repository.findAll();
     }
 
-    @GetMapping("/person/{name}")
-    public List<Person> findByName(@PathVariable("name") String name) {
-        return repository.findByName(name);
-    }
-
     @GetMapping("/person/{id}")
     public Optional<Person> findById(@PathVariable Long id) {
         return repository.findById(id);
@@ -47,12 +39,27 @@ public class PersonController {
     }
 
     @PutMapping("/person/{id}")
-    public Person updatePerson(@Valid @PathVariable int id ,@RequestBody Person person) {
-        return repository.save(person);
+    public Person updatePerson(@PathVariable Long id ,@Valid @RequestBody Person personDetails) {
+        Optional<Person> personData = repository.findById(id);
+        Person p = personData.get();
+        p.setName(personDetails.getName());
+        p.setUserName(personDetails.getUserName());
+        p.setDate(personDetails.getDate());
+        return repository.save(p);
     }
 
     @DeleteMapping("/person/{id}")
-    public void deletePerson(@PathVariable("id") Long id) {
-        repository.deleteById(id);
+    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            response.put("response", "Usuario eliminado");
+            repository.deleteById(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
